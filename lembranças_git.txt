@@ -1,0 +1,11 @@
+git init
+git add .
+git commit -m "NOME"
+
+Ligar a pasta ao GitHub e enviar  #só é usado na primeira vez
+git branch -M main
+git remote add origin https://github.com/Zupoo/jogo_idle.git
+git push -u origin main
+
+
+git status

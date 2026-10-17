@@ -1,10 +1,23 @@
 import time
+import json
+import os
 
 ouro = 0
 ouro_por_segundo = 1
+nivel_upgrade = 1
 custo_upgrade = 10
 ultima_coleta = time.time()
-nivel_upgrade = 1
+
+if os.path.exists("save.json"):
+    with open("save.json") as arquivo:
+        dados = json.load(arquivo)
+    ouro = dados["ouro"]
+    ouro_por_segundo = dados["ouro_por_segundo"]
+    nivel_upgrade = dados["nivel_upgrade"]
+    custo_upgrade = dados["custo_upgrade"]
+    ultima_coleta = dados["ultima_coleta"]
+
+
 
 print("==Jogo Idle====")
 
@@ -34,4 +47,14 @@ while True:
         break
     else:
         print(f"Ouro: {ouro:.0f} | Proximo upgrade: {custo_upgrade:.0f}")
+dados = {
+    "ouro": ouro,
+    "ouro_por_segundo": ouro_por_segundo,
+    "nivel_upgrade": nivel_upgrade,
+    "custo_upgrade": custo_upgrade,
+    "ultima_coleta": ultima_coleta,
+}
 
+with open("save.json", "w") as arquivo:
+    json.dump(dados, arquivo)
+print("Jogo salvo")
