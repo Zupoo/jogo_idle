@@ -8,7 +8,6 @@ nivel_upgrade = 1
 custo_upgrade = 10
 ultima_coleta = time.time()
 
-
 if os.path.exists("save.json"):
     with open("save.json") as arquivo:
         dados = json.load(arquivo)

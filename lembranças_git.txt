@@ -9,3 +9,9 @@ git push -u origin main
 
 
 git status
+
+
+USADOS SEMPRE
+git add .
+git commit -m "comentario"
+git push

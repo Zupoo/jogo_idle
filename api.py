@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_file
 import time
 
 app = Flask(__name__)
@@ -38,5 +38,9 @@ def upgrade():
         return{"comprou": True, "nivel_upgrade": jogo["nivel_upgrade"]}
     return {"comprou": False, "motivo": "ouro insuficiente"}
 
+
+@app.route("/")
+def pagina():
+    return send_file("index.html")
 app.run(port=5001)
 

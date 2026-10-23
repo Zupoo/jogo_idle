@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Aquario Idle</title>
+</head>
+<body>
+    <h1>Aquario Idle</h1>
+    <p>Ouro: <span id="ouro">0</span></p>
+    <p>Produção: <span id="producao">0</span> por segundo</p>
+    <p>Nivel upgrade: <span id="nivel-upgrade">0</span></p>
+    <p>Próximo upgrade custa: <span id="custo">0</span></p>
+    <button id="botao-upgrade">Comprar upgrade</button>
+    <p id="mensagem"></p>
+
+    <script>
+        async function atualizarTela() {
+            const resposta = await fetch("/status");
+            const dados = await resposta.json();
+            document.getElementById("ouro").textContent = dados.ouro;
+            document.getElementById("producao").textContent = dados.ouro_por_segundo;
+            document.getElementById("nivel-upgrade").textContent = dados.nivel_upgrade
+            document.getElementById("custo").textContent = dados.custo_upgrade;
+            
+        }
+
+        atualizarTela();
+        setInterval(atualizarTela, 1000);
+
+        document.getElementById("botao-upgrade").addEventListener("click", async () => {
+            const resposta = await fetch("/upgrade", { method: "POST"});
+            const resultado = await resposta.json();
+
+            if (resultado.comprou) {
+                document.getElementById("mensagem").textContent = "";
+            }else{
+                document.getElementById("mensagem").textContent = resultado.motivo;
+            }
+
+            atualizarTela();
+        })
+
+
+
+    </script>
+    
+</body>
+</html>
