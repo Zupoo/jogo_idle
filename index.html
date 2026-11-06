@@ -11,7 +11,10 @@
     <p>Nivel upgrade: <span id="nivel-upgrade">0</span></p>
     <p>Próximo upgrade custa: <span id="custo">0</span></p>
     <button id="botao-upgrade">Comprar upgrade</button>
+    <h2>Loja</h2>
+    <div id="loja"></div>
     <p id="mensagem"></p>
+
 
     <script>
         async function atualizarTela() {
@@ -26,6 +29,44 @@
 
         atualizarTela();
         setInterval(atualizarTela, 1000);
+
+        async function carregarLoja() {
+            const resposta = await fetch("/loja");
+            const itens = await resposta.json();
+            const lojaDiv = document.getElementById("loja")
+
+            for (const id in itens){
+                const item = itens[id];
+            
+
+                const caixa = document.createElement("div")
+                caixa.innerHTML = `<p>${id} | custo: ${item.custo} | produz ${item.ouro_por_segundo}/s</p>`;
+                
+                const botao = document.createElement("button");
+                botao.textContent = "Comprar";
+                botao.addEventListener("click", async() =>{
+                    const resp = await fetch(`/comprar/${id}`, {method: "POST"});
+                    const resultado = await resp.json();
+
+                    if (resultado.comprou) {
+                        document.getElementById("mensagem").textContent = "";
+                    }else{
+                        document.getElementById("mensagem").textContent = resultado.motivo;
+                    }
+
+                    atualizarTela();
+                });
+
+                caixa.appendChild(botao)
+                lojaDiv.appendChild(caixa)
+
+            }
+                
+        }
+        carregarLoja();
+
+
+
 
         document.getElementById("botao-upgrade").addEventListener("click", async () => {
             const resposta = await fetch("/upgrade", { method: "POST"});
