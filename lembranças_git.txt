@@ -15,3 +15,6 @@ USADOS SEMPRE
 git add .
 git commit -m "comentario"
 git push
+
+voltar versão
+git log --oneline            <- lista todos os ultimos push
