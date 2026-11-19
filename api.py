@@ -6,8 +6,6 @@ app = Flask(__name__)
 jogo = {  # aonde estao guardados as informaçoes do jogador e esta sendo e vai sendo atualizado por outras funçoes.
     "ouro": 10,
     "ouro_por_segundo": 0,
-    "nivel_upgrade": 1,
-    "custo_upgrade": 10,
     "itens": {"peixe_palhaco": 0, "anemonas": 0, "corais": 0},
     "ultima_coleta": time.time()
 }
@@ -28,26 +26,15 @@ def atualizar_ouro():       # funcao q calcula a quantidade de ouro farmado des 
     jogo["ouro"] = jogo["ouro"] + segundos * jogo["ouro_por_segundo"]
     jogo["ultima_coleta"] = agora
 
-@app.route("/status") #rota q retorna alguns status do personagem como ouro, ouro por segundo, nivel e custo de upgrade
+@app.route("/status") #rota q retorna alguns status do personagem como ouro, ouro por segundo
 def status():
     atualizar_ouro()
     return{
         "ouro": round(jogo["ouro"]),
         "ouro_por_segundo": jogo["ouro_por_segundo"],
-        "nivel_upgrade": jogo["nivel_upgrade"],
-        "custo_upgrade": round(jogo["custo_upgrade"]),
+        "itens": jogo["itens"],
     }
 
-@app.route("/upgrade", methods=["POST"]) 
-def upgrade():
-    atualizar_ouro()
-    if jogo["ouro"] >= jogo["custo_upgrade"]:
-        jogo["ouro"] -= jogo["custo_upgrade"]
-        jogo["ouro_por_segundo"] += 1
-        jogo["custo_upgrade"] *= 1.5
-        jogo["nivel_upgrade"] += 1
-        return{"comprou": True, "nivel_upgrade": jogo["nivel_upgrade"]}
-    return {"comprou": False, "motivo": "ouro insuficiente"}
 
 @app.route("/loja")  
 def loja():
@@ -56,7 +43,6 @@ def loja():
 @app.route("/comprar/<item_id>", methods=["POST"])
 def comprar(item_id):
     atualizar_ouro()
-    print("item id", item_id)
 
     if item_id not in itens:
         return{"comprou": False, "motivo": "item não existe"}, 404

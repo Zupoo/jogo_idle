@@ -8,12 +8,12 @@
     <h1>Aquario Idle</h1>
     <p>Ouro: <span id="ouro">0</span></p>
     <p>Produção: <span id="producao">0</span> por segundo</p>
-    <p>Nivel upgrade: <span id="nivel-upgrade">0</span></p>
-    <p>Próximo upgrade custa: <span id="custo">0</span></p>
-    <button id="botao-upgrade">Comprar upgrade</button>
     <h2>Loja</h2>
     <div id="loja"></div>
     <p id="mensagem"></p>
+
+    <h2>Meus itens</h2>
+    <div id="inventario"></div>
 
 
     <script>
@@ -22,22 +22,21 @@
             const dados = await resposta.json();
             document.getElementById("ouro").textContent = dados.ouro;
             document.getElementById("producao").textContent = dados.ouro_por_segundo;
-            document.getElementById("nivel-upgrade").textContent = dados.nivel_upgrade
-            document.getElementById("custo").textContent = dados.custo_upgrade;
-            
+            for (const id in dados.itens) {
+                document.getElementById("qtd-" + id).textContent = dados.itens[id];
+            }
         }
 
-        atualizarTela();
-        setInterval(atualizarTela, 1000);
+
 
         async function carregarLoja() {
             const resposta = await fetch("/loja");
             const itens = await resposta.json();
             const lojaDiv = document.getElementById("loja")
+            const inventarioDiv = document.getElementById("inventario");
 
             for (const id in itens){
                 const item = itens[id];
-            
 
                 const caixa = document.createElement("div")
                 caixa.innerHTML = `<p>${id} | custo: ${item.custo} | produz ${item.ouro_por_segundo}/s</p>`;
@@ -59,29 +58,24 @@
 
                 caixa.appendChild(botao)
                 lojaDiv.appendChild(caixa)
+                const linha = document.createElement("p");
+                linha.innerHTML = `${id}: <span id="qtd-${id}">0</span>`;
+                inventarioDiv.appendChild(linha);
 
             }
                 
         }
-        carregarLoja();
 
-
-
-
-        document.getElementById("botao-upgrade").addEventListener("click", async () => {
-            const resposta = await fetch("/upgrade", { method: "POST"});
-            const resultado = await resposta.json();
-
-            if (resultado.comprou) {
-                document.getElementById("mensagem").textContent = "";
-            }else{
-                document.getElementById("mensagem").textContent = resultado.motivo;
-            }
-
+        async function iniciar() {
+            await carregarLoja();
             atualizarTela();
-        })
+            setInterval(atualizarTela, 1000);
+        }
 
 
+
+
+        iniciar();
 
     </script>
     
