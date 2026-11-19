@@ -1,6 +1,6 @@
 git init
 git add .
-git commit -m "NOME"
+git commit -m "comentário"
 
 Ligar a pasta ao GitHub e enviar  #só é usado na primeira vez
 git branch -M main
@@ -16,5 +16,38 @@ git add .
 git commit -m "comentario"
 git push
 
-voltar versão
-git log --oneline            <- lista todos os ultimos push
+
+
+
+VOLTAR VERSÃO
+git log --oneline            <- lista todos os ultimos commits
+    (head -> main) é o ultimo commit
+    (origin/main) é o ultimo push
+        se a msm versao tiver head -> main e tb o origin/main quer dizer q a versão do cumputador esta igual ao github
+
+
+git revert hash/head     --> cria um novo commit desfazendo as alterações do commit/hash escolhido		(pode dar conflito se tiver feito alteração na msm linha)
+git revert --abort          --> cancela o q ficou pela metade na hora do revert
+
+
+git reset --hard hash      --> isso volta pra como era naquela versão do hash, perdendo tudo oq foi feito depois inclusive o historico
+
+
+git restore --source=hash  ---> o código volta para como estava no hash escolhido, sem alterar o histórico de commits
+
+
+
+
+COMO BAIXAR PROJETO
+
+git clone https://LINK_INTEIRO_DO_GITHUB.git           <- Cria uma pasta com e baixa todo o projeto         n esquece do .git no final!!!   
+
+dps só navegar com o dir cd cd.. ou fechar e abrir o git bash
+
+
+git pull				se já tiver o projeto no computador mas quer só atualizar caso alguém tenha feito alguma mudança
+
+
+git remote -v				mostra o endereço do repositorio	
+
+
