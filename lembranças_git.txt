@@ -16,6 +16,9 @@ git add .
 git commit -m "comentario"
 git push
 
+desfazer um git add
+git status
+git reset
 
 
 
@@ -40,7 +43,7 @@ git restore --source=hash  ---> o código volta para como estava no hash escolhi
 
 COMO BAIXAR PROJETO
 
-git clone https://LINK_INTEIRO_DO_GITHUB.git           <- Cria uma pasta com e baixa todo o projeto         n esquece do .git no final!!!   
+git clone https://LINK_INTEIRO_DO_GITHUB.git           <- Cria uma pasta e baixa todo o projeto         n esquece do .git no final!!!   
 
 dps só navegar com o dir cd cd.. ou fechar e abrir o git bash
 
